@@ -25,16 +25,13 @@ export default function Chat() {
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>🧠 Neurocore AI Terminal</h1>
-
       <div style={{ marginTop: "1rem" }}>
         {messages.map((msg, i) => (
           <div key={i} style={{ marginBottom: "0.5rem" }}>
-            <strong>{msg.role === "user" ? "Sen:" : "Neurocore:"}</strong>{" "}
-            {msg.content}
+            <strong>{msg.role === "user" ? "Sen:" : "Neurocore:"}</strong> {msg.content}
           </div>
         ))}
       </div>
-
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -47,17 +44,9 @@ export default function Chat() {
           maxWidth: "500px",
         }}
       />
-
-      <button
-        onClick={sendMessage}
-        style={{
-          marginTop: "1rem",
-          marginLeft: "0.5rem",
-          padding: "0.5rem 1rem",
-        }}
-      >
+      <button onClick={sendMessage} style={{ marginLeft: "1rem" }}>
         Gönder
       </button>
     </div>
   );
-                      }
+}
