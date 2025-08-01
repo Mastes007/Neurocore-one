@@ -1,44 +1,52 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-export default function ChatPage() {
-  const [messages, setMessages] = useState([]);
+export default function Chat() {
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([]);
 
   const sendMessage = async () => {
-    if (!input) return;
-    setMessages([...messages, { sender: "user", text: input }]);
-    
-    // Fake bot cevabı
-    setTimeout(() => {
-      setMessages(prev => [...prev, { sender: "bot", text: "Neurocore: Komutunuz kaydedildi." }]);
-    }, 1000);
+    if (!input.trim()) return;
 
+    const userMessage = { role: "user", content: input };
+    setMessages([...messages, userMessage]);
     setInput("");
+
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: input }),
+    });
+
+    const data = await response.json();
+    const botMessage = { role: "assistant", content: data.result };
+    setMessages((prev) => [...prev, botMessage]);
   };
 
   return (
-    <div style={{ padding: 20, backgroundColor: "#111", height: "100vh", color: "#0f0" }}>
+    <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>🧠 Neurocore AI Terminal</h1>
-      <div style={{ height: "70vh", overflowY: "scroll", marginTop: 20 }}>
-        {messages.map((msg, idx) => (
-          <div key={idx} style={{ marginBottom: 10 }}>
-            <strong>{msg.sender === "user" ? "Sen" : "Neurocore"}:</strong> {msg.text}
+      <div style={{ marginTop: "1rem" }}>
+        {messages.map((msg, i) => (
+          <div key={i} style={{ marginBottom: "0.5rem" }}>
+            <strong>{msg.role === "user" ? "Sen:" : "Neurocore:"}</strong> {msg.content}
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 20 }}>
-        <input 
-          type="text" 
-          value={input} 
-          onChange={(e) => setInput(e.target.value)} 
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Komut yaz..." 
-          style={{ padding: 10, width: "80%", backgroundColor: "#222", color: "#0f0", border: "1px solid #333" }}
-        />
-        <button onClick={sendMessage} style={{ padding: 10, marginLeft: 10, backgroundColor: "#0f0", color: "#000" }}>
-          Gönder
-        </button>
-      </div>
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+        placeholder="Komut yazın..."
+        style={{
+          marginTop: "1rem",
+          padding: "0.5rem",
+          width: "100%",
+          maxWidth: "500px",
+        }}
+      />
+      <button onClick={sendMessage} style={{ marginLeft: "1rem" }}>
+        Gönder
+      </button>
     </div>
   );
-          }
+}
