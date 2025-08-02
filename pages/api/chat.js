@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Only POST requests allowed" });
   }
 
-  const apiKey = "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 "; //
+  const apiKey = "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"; //
 
   const { message } = req.body;
   console.log("💬 Gelen mesaj:", message);
