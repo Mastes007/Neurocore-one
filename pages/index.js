@@ -1,6 +1,4 @@
-import dynamic from "next/dynamic";
-
-const Chat = dynamic(() => import("../components/Chat"), { ssr: false });
+import Chat from "../components/Chat";
 
 export default function Home() {
   return (
