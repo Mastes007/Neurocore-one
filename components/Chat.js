@@ -11,15 +11,20 @@ export default function Chat() {
     setMessages([...messages, userMessage]);
     setInput("");
 
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input }),
-    });
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
 
-    const data = await response.json();
-    const botMessage = { role: "assistant", content: data.result };
-    setMessages((prev) => [...prev, botMessage]);
+      const data = await response.json();
+      const botMessage = { role: "assistant", content: data.result };
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      const botMessage = { role: "assistant", content: "Bağlantı hatası." };
+      setMessages((prev) => [...prev, botMessage]);
+    }
   };
 
   return (
@@ -49,4 +54,4 @@ export default function Chat() {
       </button>
     </div>
   );
-          }
+                    }
