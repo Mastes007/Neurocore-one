@@ -17,8 +17,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        console.log("🔑 Environment key:", process.env.OPENAI_API_KEY);
-console.log("📤 Gönderilen Authorization header:", `Bearer ${process.env.OPENAI_API_KEY}`);
+        ;
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
