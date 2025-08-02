@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   try {
     const headers = {
       "Content-Type": "application/json",
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer ${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} `,
     };
 
     console.log("📌 Gönderilen header:", headers); // ✅ Burada kontrol ediyoruz
